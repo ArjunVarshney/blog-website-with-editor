@@ -1,18 +1,20 @@
+import GenerateBlog from "@/components/editor/generator/generate-blog";
 import { editorState } from "@/helpers/test-editor-state";
+import { jsontohtml } from "jsontohtml-render";
 import React from "react";
 
 type Props = {};
 
 const BlogPage = (props: Props) => {
    return (
-      <div className="flex gap-1 bg-primary h-screen">
+      <div className="flex h-screen">
          <div className="w-full bg-background max-h-screen overflow-y-scroll">
-            Try to make the output here.
+            <GenerateBlog blogJson={editorState} />
          </div>
-         <div className="w-full bg-background overflow-x-hidden overflow-y-scroll">
-            <pre className="max-w-full">
-               {JSON.stringify(editorState, null, 3)}
-            </pre>
+         <div className="w-full overflow-x-hidden overflow-y-scroll bg-black">
+            <div
+               dangerouslySetInnerHTML={{ __html: jsontohtml(editorState) }}
+            ></div>
          </div>
       </div>
    );

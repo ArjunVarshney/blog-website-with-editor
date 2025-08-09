@@ -37,7 +37,7 @@ export const editorTheme: EditorThemeClasses = {
       ul: "list-disc list-outside [&>li]:mt-2",
       ulDepth: ["!list-disk", "!list-[circle]"],
    },
-   hashtag: "text-blue-600 bg-blue-100 rounded-md px-1",
+   hashtag: "text-blue-600 bg-blue-100 rounded-md px-2 py-1",
    text: {
       bold: "font-bold",
       code: "bg-gray-200 dark:bg-gray-800 py-1 px-2 rounded-md",
@@ -45,9 +45,24 @@ export const editorTheme: EditorThemeClasses = {
       strikethrough: "line-through",
       subscript: "sub",
       superscript: "sup",
+      highlight: "mark",
       underline: "underline",
       underlineStrikethrough: "underline line-through",
    },
+   pageBreak: `relative block w-[calc(100%+56px)] overflow-visible 
+      -ml-[28px] -mr-[28px] mt-7 mb-7
+      border-0 border-t border-b border-dashed border-[var(--editor-color-secondary,#eee)]
+      bg-[var(--editor-color-secondary,#eee)]
+      before:content-[''] 
+      before:absolute before:top-1/2 before:-translate-y-1/2
+      before:left-10 before:opacity-50
+      before:bg-cover before:w-4 before:h-4
+      after:content-['PAGE_BREAK']
+      after:absolute after:top-1/2 after:left-1/2 
+      after:-translate-x-1/2 after:-translate-y-1/2
+      after:block after:py-0.5 after:px-1.5
+      after:border after:border-solid after:border-[#ccc]
+      after:bg-white after:text-xs after:text-black after:font-semibold`,
    image: "relative inline-block user-select-none cursor-default editor-image",
    inlineImage:
       "relative inline-block user-select-none cursor-default inline-editor-image",
