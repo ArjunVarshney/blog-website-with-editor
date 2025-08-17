@@ -1,4 +1,4 @@
-"use client"
+'use client';
 
 /**
  * Copyright (c) Meta Platforms, Inc. and affiliates.
@@ -7,84 +7,87 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { JSX, useCallback, useEffect } from "react"
-import * as React from "react"
-import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext"
-import { $wrapNodeInElement } from "@lexical/utils"
+import { JSX, useCallback, useEffect } from 'react';
+import * as React from 'react';
+import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
+import { $wrapNodeInElement } from '@lexical/utils';
 
-import "katex/dist/katex.css"
+import 'katex/dist/katex.css';
 
 import {
-  $createParagraphNode,
-  $insertNodes,
-  $isRootOrShadowRoot,
-  COMMAND_PRIORITY_EDITOR,
-  createCommand,
-  LexicalCommand,
-  LexicalEditor,
-} from "lexical"
+   $createParagraphNode,
+   $insertNodes,
+   $isRootOrShadowRoot,
+   COMMAND_PRIORITY_EDITOR,
+   createCommand,
+   LexicalCommand,
+   LexicalEditor,
+} from 'lexical';
 
-import KatexEquationAlterer from "@/components/editor/editor-ui/katex-equation-alterer"
+import KatexEquationAlterer from '@/components/editor/editor-ui/katex-equation-alterer';
 import {
-  $createEquationNode,
-  EquationNode,
-} from "@/components/editor/nodes/equation-node"
+   $createEquationNode,
+   EquationNode,
+} from '@/components/editor/nodes/equation-node';
 
 type CommandPayload = {
-  equation: string
-  inline: boolean
-}
+   equation: string;
+   inline: boolean;
+};
 
 export const INSERT_EQUATION_COMMAND: LexicalCommand<CommandPayload> =
-  createCommand("INSERT_EQUATION_COMMAND")
+   createCommand('INSERT_EQUATION_COMMAND');
 
 export function InsertEquationDialog({
-  activeEditor,
-  onClose,
+   activeEditor,
+   onClose,
 }: {
-  activeEditor: LexicalEditor
-  onClose: () => void
+   activeEditor: LexicalEditor;
+   onClose: () => void;
 }): JSX.Element {
-  const onEquationConfirm = useCallback(
-    (equation: string, inline: boolean) => {
-      activeEditor.dispatchCommand(INSERT_EQUATION_COMMAND, {
-        equation,
-        inline,
-      })
-      onClose()
-    },
-    [activeEditor, onClose]
-  )
+   const onEquationConfirm = useCallback(
+      (equation: string, inline: boolean) => {
+         activeEditor.dispatchCommand(INSERT_EQUATION_COMMAND, {
+            equation,
+            inline,
+         });
+         onClose();
+      },
+      [activeEditor, onClose],
+   );
 
-  return <KatexEquationAlterer onConfirm={onEquationConfirm} />
+   return <KatexEquationAlterer onConfirm={onEquationConfirm} />;
 }
 
 export function EquationsPlugin(): JSX.Element | null {
-  const [editor] = useLexicalComposerContext()
+   const [editor] = useLexicalComposerContext();
 
-  useEffect(() => {
-    if (!editor.hasNodes([EquationNode])) {
-      throw new Error(
-        "EquationsPlugins: EquationsNode not registered on editor"
-      )
-    }
+   useEffect(() => {
+      if (!editor.hasNodes([EquationNode])) {
+         throw new Error(
+            'EquationsPlugins: EquationsNode not registered on editor',
+         );
+      }
 
-    return editor.registerCommand<CommandPayload>(
-      INSERT_EQUATION_COMMAND,
-      (payload) => {
-        const { equation, inline } = payload
-        const equationNode = $createEquationNode(equation, inline)
+      return editor.registerCommand<CommandPayload>(
+         INSERT_EQUATION_COMMAND,
+         (payload) => {
+            const { equation, inline } = payload;
+            const equationNode = $createEquationNode(equation, inline);
 
-        $insertNodes([equationNode])
-        if ($isRootOrShadowRoot(equationNode.getParentOrThrow())) {
-          $wrapNodeInElement(equationNode, $createParagraphNode).selectEnd()
-        }
+            $insertNodes([equationNode]);
+            if ($isRootOrShadowRoot(equationNode.getParentOrThrow())) {
+               $wrapNodeInElement(
+                  equationNode,
+                  $createParagraphNode,
+               ).selectEnd();
+            }
 
-        return true
-      },
-      COMMAND_PRIORITY_EDITOR
-    )
-  }, [editor])
+            return true;
+         },
+         COMMAND_PRIORITY_EDITOR,
+      );
+   }, [editor]);
 
-  return null
+   return null;
 }

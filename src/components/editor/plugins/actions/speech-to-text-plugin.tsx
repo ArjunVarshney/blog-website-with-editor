@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 /**
  * Copyright (c) Meta Platforms, Inc. and affiliates.
@@ -7,9 +7,9 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { useEffect, useRef, useState } from "react";
-import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
-import type { LexicalCommand, LexicalEditor, RangeSelection } from "lexical";
+import { useEffect, useRef, useState } from 'react';
+import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
+import type { LexicalCommand, LexicalEditor, RangeSelection } from 'lexical';
 import {
    $getSelection,
    $isRangeSelection,
@@ -17,20 +17,20 @@ import {
    createCommand,
    REDO_COMMAND,
    UNDO_COMMAND,
-} from "lexical";
-import { MicIcon } from "lucide-react";
+} from 'lexical';
+import { MicIcon } from 'lucide-react';
 
-import { useReport } from "@/components/editor/editor-hooks/use-report";
-import { CAN_USE_DOM } from "@/components/editor/shared/can-use-dom";
-import { Button } from "@/components/ui/button";
+import { useReport } from '@/components/editor/editor-hooks/use-report';
+import { CAN_USE_DOM } from '@/components/editor/shared/can-use-dom';
+import { Button } from '@/components/ui/button';
 import {
    Tooltip,
    TooltipContent,
    TooltipTrigger,
-} from "@/components/ui/tooltip";
+} from '@/components/ui/tooltip';
 
 export const SPEECH_TO_TEXT_COMMAND: LexicalCommand<boolean> = createCommand(
-   "SPEECH_TO_TEXT_COMMAND"
+   'SPEECH_TO_TEXT_COMMAND',
 );
 
 const VOICE_COMMANDS: Readonly<
@@ -39,7 +39,7 @@ const VOICE_COMMANDS: Readonly<
       (arg0: { editor: LexicalEditor; selection: RangeSelection }) => void
    >
 > = {
-   "\n": ({ selection }) => {
+   '\n': ({ selection }) => {
       selection.insertParagraph();
    },
    redo: ({ editor }) => {
@@ -52,7 +52,7 @@ const VOICE_COMMANDS: Readonly<
 
 export const SUPPORT_SPEECH_RECOGNITION: boolean =
    CAN_USE_DOM &&
-   ("SpeechRecognition" in window || "webkitSpeechRecognition" in window);
+   ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window);
 
 function SpeechToTextPluginImpl() {
    const [editor] = useLexicalComposerContext();
@@ -72,7 +72,7 @@ function SpeechToTextPluginImpl() {
          recognition.current.continuous = true;
          recognition.current.interimResults = true;
          recognition.current.addEventListener(
-            "result",
+            'result',
             (event: typeof SpeechRecognition) => {
                const resultItem = event.results.item(event.resultIndex);
                const { transcript } = resultItem.item(0);
@@ -101,7 +101,7 @@ function SpeechToTextPluginImpl() {
                      }
                   }
                });
-            }
+            },
          );
       }
 
@@ -126,7 +126,7 @@ function SpeechToTextPluginImpl() {
             setIsEnabled(_isEnabled);
             return true;
          },
-         COMMAND_PRIORITY_EDITOR
+         COMMAND_PRIORITY_EDITOR,
       );
    }, [editor]);
 
@@ -147,20 +147,18 @@ function SpeechToTextPluginImpl() {
                onClick={() => {
                   editor.dispatchCommand(
                      SPEECH_TO_TEXT_COMMAND,
-                     !isSpeechToText
+                     !isSpeechToText,
                   );
                   setIsSpeechToText(!isSpeechToText);
                }}
-               variant={isSpeechToText ? "secondary" : "ghost"}
-               title="Speech To Text"
-               aria-label={`${
-                  isSpeechToText ? "Enable" : "Disable"
-               } speech to text`}
-               className="p-2"
-               size={"sm"}
+               variant={isSpeechToText ? 'secondary' : 'ghost'}
+               title='Speech To Text'
+               aria-label={`${isSpeechToText ? 'Enable' : 'Disable'} speech to text`}
+               className='p-2'
+               size={'sm'}
                suppressHydrationWarning
             >
-               <MicIcon className="size-4" />
+               <MicIcon className='size-4' />
             </Button>
          </TooltipTrigger>
          <TooltipContent>Speech To Text</TooltipContent>

@@ -89,3 +89,7 @@
 .Collapsible__container[open] > .Collapsible__title {
    list-style-type: disclosure-open;
 }
+
+.Collapsible__container[open] > .Collapsible__content {
+   height: 100%;
+}

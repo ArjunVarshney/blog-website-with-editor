@@ -1,12 +1,12 @@
-import { Metadata } from "next";
+import { Metadata } from 'next';
 
 // components
-import { SidebarProvider } from "@/components/ui/sidebar";
-import { AppSidebar } from "@/components/base/sidebar";
+import { SidebarProvider } from '@/components/ui/sidebar';
+import { AppSidebar } from '@/components/base/sidebar';
 
 export const metadata: Metadata = {
-   title: "Home | The Modern School",
-   description: "Home Page",
+   title: 'Home | The Modern School',
+   description: 'Home Page',
 };
 
 export default async function Layout({

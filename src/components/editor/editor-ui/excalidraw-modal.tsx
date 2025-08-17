@@ -1,4 +1,4 @@
-import * as React from "react";
+import * as React from 'react';
 import {
    JSX,
    ReactElement,
@@ -6,16 +6,16 @@ import {
    useLayoutEffect,
    useRef,
    useState,
-} from "react";
-import dynamic from "next/dynamic";
+} from 'react';
+import dynamic from 'next/dynamic';
 import {
    AppState,
    BinaryFiles,
    ExcalidrawImperativeAPI,
    ExcalidrawInitialDataState,
-} from "@excalidraw/excalidraw/types";
+} from '@excalidraw/excalidraw/types';
 
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import {
    Dialog,
    DialogTrigger,
@@ -23,11 +23,11 @@ import {
    DialogContent,
    DialogTitle,
    DialogFooter,
-} from "@/components/ui/dialog";
+} from '@/components/ui/dialog';
 
-const Excalidraw = dynamic(() => import("./excalidraw"), { ssr: false });
+const Excalidraw = dynamic(() => import('./excalidraw'), { ssr: false });
 
-export type ExcalidrawInitialElements = ExcalidrawInitialDataState["elements"];
+export type ExcalidrawInitialElements = ExcalidrawInitialDataState['elements'];
 
 type Props = {
    closeOnClickOutside?: boolean;
@@ -61,7 +61,7 @@ type Props = {
    onSave: (
       elements: ExcalidrawInitialElements,
       appState: Partial<AppState>,
-      files: BinaryFiles
+      files: BinaryFiles,
    ) => void;
 };
 
@@ -70,7 +70,7 @@ export const useCallbackRefState = () => {
       React.useState<ExcalidrawImperativeAPI | null>(null);
    const refCallback = React.useCallback(
       (value: ExcalidrawImperativeAPI | null) => setRefValue(value),
-      []
+      [],
    );
    return [refValue, refCallback] as const;
 };
@@ -120,15 +120,15 @@ export function ExcalidrawModal({
       if (excaliDrawModelRef.current !== null) {
          modalOverlayElement = excaliDrawModelRef.current?.parentElement;
          if (modalOverlayElement !== null) {
-            modalOverlayElement?.addEventListener("click", clickOutsideHandler);
+            modalOverlayElement?.addEventListener('click', clickOutsideHandler);
          }
       }
 
       return () => {
          if (modalOverlayElement !== null) {
             modalOverlayElement?.removeEventListener(
-               "click",
-               clickOutsideHandler
+               'click',
+               clickOutsideHandler,
             );
          }
       };
@@ -138,18 +138,18 @@ export function ExcalidrawModal({
       const currentModalRef = excaliDrawModelRef.current;
 
       const onKeyDown = (event: KeyboardEvent) => {
-         if (event.key === "Escape") {
+         if (event.key === 'Escape') {
             onDelete();
          }
       };
 
       if (currentModalRef !== null) {
-         currentModalRef.addEventListener("keydown", onKeyDown);
+         currentModalRef.addEventListener('keydown', onKeyDown);
       }
 
       return () => {
          if (currentModalRef !== null) {
-            currentModalRef.removeEventListener("keydown", onKeyDown);
+            currentModalRef.removeEventListener('keydown', onKeyDown);
          }
       };
    }, [elements, files, onDelete]);
@@ -161,7 +161,7 @@ export function ExcalidrawModal({
          const partialState: Partial<AppState> = {
             exportBackground: appState?.exportBackground,
             exportScale: appState?.exportScale,
-            exportWithDarkMode: appState?.theme === "dark",
+            exportWithDarkMode: appState?.theme === 'dark',
             isBindingEnabled: appState?.isBindingEnabled,
             isLoading: appState?.isLoading,
             name: appState?.name,
@@ -214,7 +214,7 @@ export function ExcalidrawModal({
    const onChange = (
       els: ExcalidrawInitialElements,
       _: AppState,
-      fls: BinaryFiles
+      fls: BinaryFiles,
    ) => {
       setElements(els);
       setFiles(fls);
@@ -222,15 +222,15 @@ export function ExcalidrawModal({
 
    return (
       <Dialog open={isShown}>
-         <DialogContent className="h-5/6 max-w-6xl overflow-hidden p-0 flex flex-col gap-0">
-            <DialogTitle className="hidden" />
-            <div className="relative h-full" role="dialog">
+         <DialogContent className='h-5/6 max-w-6xl overflow-hidden p-0 flex flex-col gap-0'>
+            <DialogTitle className='hidden' />
+            <div className='relative h-full' role='dialog'>
                <div
-                  className="h-full w-full"
+                  className='h-full w-full'
                   ref={excaliDrawModelRef}
                   tabIndex={-1}
                >
-                  <div className="h-full w-full">
+                  <div className='h-full w-full'>
                      {discardModalOpen && <ShowDiscardDialog />}
                      <Excalidraw
                         onChange={onChange}
@@ -241,14 +241,14 @@ export function ExcalidrawModal({
                            files: initialFiles,
                         }}
                      />
-                     <div className="flex h-full items-center justify-center">
+                     <div className='flex h-full items-center justify-center'>
                         Loading...
                      </div>
                   </div>
                </div>
             </div>
-            <DialogFooter className="p-3 flex sm:items-center z-10">
-               <Button variant="outline" onClick={onClose}>
+            <DialogFooter className='p-3 flex sm:items-center z-10'>
+               <Button variant='outline' onClick={onClose}>
                   Discard
                </Button>
                <Button onClick={save}>Save</Button>

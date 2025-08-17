@@ -1,14 +1,14 @@
-import { SerializedCodeNode } from "@lexical/code";
-import React from "react";
-import { editorTheme } from "@/components/editor/themes/editor-theme";
-import { cn } from "@/lib/utils";
-import BlogComposer from "../blog-compose";
+import { SerializedCodeNode } from '@lexical/code';
+import React from 'react';
+import { editorTheme } from '@/components/editor/themes/editor-theme';
+import { cn } from '@/lib/utils';
+import BlogComposer from '../blog-compose';
 import {
    SerializedLexicalNode,
    SerializedRootNode,
    SerializedTextNode,
    Spread,
-} from "lexical";
+} from 'lexical';
 
 type SerializedCodeHighlightNode = Spread<
    {
@@ -24,22 +24,22 @@ type Props = {
 
 const Code = ({ node, className }: Props) => {
    const nLines =
-      node.children.filter((node) => node.type === "linebreak").length + 1;
+      node.children.filter((node) => node.type === 'linebreak').length + 1;
    return (
       <code
          className={cn(editorTheme.code, className)}
          data-gutter={Array.from({ length: nLines })
-            .map((_, index) => index + 1 + "\n")
-            .join("")}
+            .map((_, index) => index + 1 + '\n')
+            .join('')}
       >
          {node.children.map((childNode, index) => {
-            if (childNode.type === "code-highlight") {
+            if (childNode.type === 'code-highlight') {
                const node = childNode as SerializedCodeHighlightNode;
                return (
                   <span
                      className={cn(
                         node.highlightType &&
-                           editorTheme.codeHighlight?.[node.highlightType]
+                           editorTheme.codeHighlight?.[node.highlightType],
                      )}
                      key={index}
                   >
